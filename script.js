@@ -74,6 +74,8 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+const editWorkoutBtn = document.querySelector('.workout__edit-btn');
+
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -89,6 +91,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    containerWorkouts.addEventListener('click', this._editWorkout.bind(this));
   }
 
   _getPosition() {
@@ -315,6 +318,21 @@ class App {
   reset() {
     localStorage.removeItem('workouts');
     location.reload();
+  }
+
+  // My code
+  _editWorkout(e) {
+    const editBtn = e.target.closest('.workout__edit-btn');
+    if (!editBtn) return;
+
+    const workoutEl = editBtn.closest('.workout');
+    const workoutId = workoutEl.dataset.id;
+
+    if (editBtn) {
+      // Show form
+      this._showForm();
+      // Replace data
+    }
   }
 }
 
