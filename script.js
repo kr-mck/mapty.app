@@ -331,7 +331,14 @@ class App {
     if (editBtn) {
       // Show form
       this._showForm();
-      // Replace data
+      // Hide workout container
+      workoutEl.remove();
+
+      // Show current workout data in the form
+
+      // Submit - replace current data with new data in workout array
+
+      // Show workout
     }
   }
 }
