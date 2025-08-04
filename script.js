@@ -325,6 +325,7 @@ class App {
     const editBtn = e.target.closest('.workout__edit-btn');
     if (!editBtn) return;
 
+    const workoutsContainer = document.querySelector('.sidebar');
     const workoutEl = editBtn.closest('.workout');
     const workoutId = workoutEl.dataset.id;
 
@@ -333,6 +334,18 @@ class App {
       this._showForm();
       // Hide workout container
       workoutEl.remove();
+
+      //Show workout container when ckliced sidebar's padding
+      workoutsContainer.addEventListener('click', function (e) {
+        const clickedElement = e.target;
+
+        if (
+          !clickedElement.closest('.workout') &&
+          !clickedElement.closest('.form')
+        ) {
+          console.log('WOrks');
+        }
+      });
 
       // Show current workout data in the form
 
