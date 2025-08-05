@@ -333,23 +333,30 @@ class App {
       // Show form
       this._showForm();
       // Hide workout container
-      workoutEl.remove();
+      // workoutEl.remove();
+      workoutEl.style.display = 'none';
 
-      //Show workout container when ckliced sidebar's padding
-      workoutsContainer.addEventListener('click', function (e) {
-        const clickedElement = e.target;
+      //Show workout container when cklicked sidebar padding
+      workoutsContainer.addEventListener(
+        'click',
+        function (e) {
+          const clickedElement = e.target;
 
-        if (
-          !clickedElement.closest('.workout') &&
-          !clickedElement.closest('.form')
-        ) {
-          console.log('WOrks');
-        }
-      });
+          if (
+            !clickedElement.closest('.workout') &&
+            !clickedElement.closest('.form')
+          ) {
+            this._hideForm();
+            workoutEl.style.display = '';
+          }
+        }.bind(this)
+      );
 
       // Show current workout data in the form
 
       // Submit - replace current data with new data in workout array
+
+      // Bind showed form with current workout element
 
       // Show workout
     }
