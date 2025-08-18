@@ -333,8 +333,13 @@ class App {
       // Show form
       this._showForm();
       // Hide workout container
-      // workoutEl.remove();
       workoutEl.style.display = 'none';
+
+      // Show current workout data in the form
+      const currWorkoutObj = this.#workouts.find(
+        workout => workout.id === workoutId
+      );
+      console.log(currWorkoutObj);
 
       //Show workout container when cklicked sidebar padding
       workoutsContainer.addEventListener(
@@ -351,8 +356,6 @@ class App {
           }
         }.bind(this)
       );
-
-      // Show current workout data in the form
 
       // Submit - replace current data with new data in workout array
 
