@@ -330,8 +330,6 @@ class App {
     const workoutId = workoutEl.dataset.id;
 
     if (editBtn) {
-      // Show form
-      this._showForm();
       // Hide workout container
       workoutEl.style.display = 'none';
 
@@ -339,7 +337,23 @@ class App {
       const currWorkoutObj = this.#workouts.find(
         workout => workout.id === workoutId
       );
-      console.log(currWorkoutObj);
+
+      inputType.value = currWorkoutObj.type;
+      inputDistance.value = currWorkoutObj.distance;
+      inputDuration.value = currWorkoutObj.duration;
+
+      this._toggleElevationField();
+
+      if (currWorkoutObj.type === 'running') {
+        inputCadence.value = currWorkoutObj.cadence;
+      } else if (currWorkoutObj.type === 'cycling') {
+        inputElevation.value = currWorkoutObj.elevationGain;
+      }
+
+      // Bug fix
+
+      // Show form
+      this._showForm();
 
       //Show workout container when cklicked sidebar padding
       workoutsContainer.addEventListener(
