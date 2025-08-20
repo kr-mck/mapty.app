@@ -342,15 +342,19 @@ class App {
       inputDistance.value = currWorkoutObj.distance;
       inputDuration.value = currWorkoutObj.duration;
 
-      this._toggleElevationField();
-
       if (currWorkoutObj.type === 'running') {
+        inputElevation.closest('.form__row').classList.add('form__row--hidden');
+        inputCadence
+          .closest('.form__row')
+          .classList.remove('form__row--hidden');
         inputCadence.value = currWorkoutObj.cadence;
       } else if (currWorkoutObj.type === 'cycling') {
+        inputElevation
+          .closest('.form__row')
+          .classList.remove('form__row--hidden');
+        inputCadence.closest('.form__row').classList.add('form__row--hidden');
         inputElevation.value = currWorkoutObj.elevationGain;
       }
-
-      // Bug fix
 
       // Show form
       this._showForm();
