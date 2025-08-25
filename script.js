@@ -321,6 +321,7 @@ class App {
   }
 
   // My code
+
   _editWorkout(e) {
     const editBtn = e.target.closest('.workout__edit-btn');
     if (!editBtn) return;
@@ -377,10 +378,82 @@ class App {
 
       // Submit - replace current data with new data in workout array
 
+      form.addEventListener('submit', this._replaceWorkout.bind(this));
+      //NOW fix bugs (from console) after submiting the form!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
       // Bind showed form with current workout element
 
       // Show workout
     }
+  }
+
+  _replaceWorkout(e) {
+    const validInputs = (...inputs) =>
+      inputs.every(inp => Number.isFinite(inp));
+    const allpositive = (...inputs) => inputs.every(inp => inp > 0);
+
+    e.preventDefault();
+
+    // Get data from form
+    const type = inputType.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
+    const { lat, lng } = this.currWorkoutObj.coords;
+
+    const index = this.#workouts.findIndex(
+      work => work.id === this.currWorkoutObj.id
+    );
+
+    let workout = this.#workouts[index];
+
+    // If workout running, create running object
+    if (type === 'running') {
+      const cadence = +inputCadence.value;
+
+      // Check if data is valid
+      if (
+        !validInputs(distance, duration, cadence) ||
+        !allpositive(distance, duration, cadence)
+      )
+        return alert('All inputs have to be positive numbers!');
+
+      workout.distance = distance;
+      workout.duration = duration;
+      workout.cadence = cadence;
+    }
+
+    // If workout cyclig, create running object
+    if (type === 'cycling') {
+      const elevation = +inputElevation.value;
+
+      if (
+        !validInputs(distance, duration, elevation) ||
+        !allpositive(distance, duration)
+      )
+        return alert('Inputs have to be positive numbers!');
+
+      workout.distance = distance;
+      workout.duration = duration;
+      workout.elevation = elevation;
+    }
+
+    workout.id = this.currWorkoutObj.id;
+    workout.date = this.currWorkoutObj.date;
+
+    // Add new workout to workout array
+    // this.#workouts.push(workout);
+
+    // Render workout on the map
+    // this._renderWorkoutMarker(workout);
+
+    // Render workout on list
+    this._renderWorkout(workout);
+
+    //Hide form and clear input fields
+    this._hideForm();
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
 }
 
