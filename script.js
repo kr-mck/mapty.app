@@ -81,6 +81,7 @@ class App {
   #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
+  #isEditing;
 
   constructor() {
     this._getPosition();
@@ -88,10 +89,12 @@ class App {
     // Get data from local storage
     this._getLocaleStorage();
 
-    form.addEventListener('submit', this._newWorkout.bind(this));
+    form.addEventListener('submit', this._handleSubmit.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     containerWorkouts.addEventListener('click', this._editWorkout.bind(this));
+
+    this.#isEditing = false;
   }
 
   _getPosition() {
@@ -331,6 +334,9 @@ class App {
     const workoutId = workoutEl.dataset.id;
 
     if (editBtn) {
+      // "Turn on edit mode"
+      this.#isEditing = true;
+
       // Hide workout container
       workoutEl.style.display = 'none';
 
@@ -454,6 +460,17 @@ class App {
 
     // Set local storage to all workouts
     this._setLocalStorage();
+
+    // Turn off "editing mode"
+    this.#isEditing = false;
+  }
+
+  _handleSubmit(e) {
+    if (this.#isEditing) {
+      this._replaceWorkout(e);
+    } else {
+      this._newWorkout(e);
+    }
   }
 }
 
