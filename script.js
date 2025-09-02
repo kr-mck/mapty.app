@@ -82,6 +82,7 @@ class App {
   #mapEvent;
   #workouts = [];
   #isEditing;
+  #editingWorkout;
 
   constructor() {
     this._getPosition();
@@ -333,6 +334,10 @@ class App {
     const workoutEl = editBtn.closest('.workout');
     const workoutId = workoutEl.dataset.id;
 
+    this.#editingWorkout = this.#workouts.find(
+      workout => workout.id === workoutId
+    );
+
     if (editBtn) {
       // "Turn on edit mode"
       this.#isEditing = true;
@@ -385,7 +390,8 @@ class App {
       // Submit - replace current data with new data in workout array
 
       form.addEventListener('submit', this._replaceWorkout.bind(this));
-      //NOW fix bugs (from console) after submiting the form!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+      // Fix calc Pase / Speed / bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Test the values after submitting the form
 
       // Bind showed form with current workout element
 
@@ -404,13 +410,9 @@ class App {
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
-    const { lat, lng } = this.currWorkoutObj.coords;
+    const { lat, lng } = this.#editingWorkout.coords;
 
-    const index = this.#workouts.findIndex(
-      work => work.id === this.currWorkoutObj.id
-    );
-
-    let workout = this.#workouts[index];
+    const workout = this.#editingWorkout;
 
     // If workout running, create running object
     if (type === 'running') {
@@ -443,14 +445,8 @@ class App {
       workout.elevation = elevation;
     }
 
-    workout.id = this.currWorkoutObj.id;
-    workout.date = this.currWorkoutObj.date;
-
-    // Add new workout to workout array
-    // this.#workouts.push(workout);
-
-    // Render workout on the map
-    // this._renderWorkoutMarker(workout);
+    workout.id = this.#editingWorkout.id;
+    workout.date = this.#editingWorkout.date;
 
     // Render workout on list
     this._renderWorkout(workout);
@@ -459,10 +455,11 @@ class App {
     this._hideForm();
 
     // Set local storage to all workouts
-    this._setLocalStorage();
+    // this._setLocalStorage();
 
-    // Turn off "editing mode"
+    // Turn off "editing mode" and reset custom fields after editing
     this.#isEditing = false;
+    this.#editingWorkout = null;
   }
 
   _handleSubmit(e) {
