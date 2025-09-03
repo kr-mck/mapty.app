@@ -246,7 +246,7 @@ class App {
         </div>
         <div class="workout__details">
           <span class="workout__icon">⏱</span>
-          <span class="workout__value">${workout.duration}}</span>
+          <span class="workout__value">${workout.duration}</span>
           <span class="workout__unit">min</span>
         </div>
     `;
@@ -391,7 +391,8 @@ class App {
 
       form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      // Fix calc Pase / Speed / bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Test the values after submitting the form
+      // Fix Speed / bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Test the values after submitting the form
+      // Fix apearing of the old workout container in the DOM
 
       // Bind showed form with current workout element
 
@@ -428,6 +429,7 @@ class App {
       workout.distance = distance;
       workout.duration = duration;
       workout.cadence = cadence;
+      workout.pace = workout.duration / workout.distance;
     }
 
     // If workout cyclig, create running object
