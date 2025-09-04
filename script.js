@@ -389,15 +389,11 @@ class App {
       );
 
       // Submit - replace current data with new data in workout array
-
       form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      // Fix Speed / bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Test the values after submitting the form
-      // Fix apearing of the old workout container in the DOM
-
-      // Bind showed form with current workout element
-
-      // Show workout
+      //Fix another workout apearing when clicked bug
+      //Update description in UI
+      //Fix coords bug
     }
   }
 
@@ -409,12 +405,12 @@ class App {
     e.preventDefault();
 
     // Get data from form
+    const workout = this.#editingWorkout;
+
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
     const { lat, lng } = this.#editingWorkout.coords;
-
-    const workout = this.#editingWorkout;
 
     // If workout running, create running object
     if (type === 'running') {
@@ -427,6 +423,7 @@ class App {
       )
         return alert('All inputs have to be positive numbers!');
 
+      workout.type = type;
       workout.distance = distance;
       workout.duration = duration;
       workout.cadence = cadence;
@@ -443,10 +440,11 @@ class App {
       )
         return alert('Inputs have to be positive numbers!');
 
+      workout.type = type;
       workout.distance = distance;
       workout.duration = duration;
       workout.elevation = elevation;
-      workout.speed = this.distance / (this.duration / 60);
+      workout.speed = workout.distance / (workout.duration / 60);
     }
 
     workout.id = this.#editingWorkout.id;
