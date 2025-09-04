@@ -378,6 +378,7 @@ class App {
           const clickedElement = e.target;
 
           if (
+            this.#isEditing === true &&
             !clickedElement.closest('.workout') &&
             !clickedElement.closest('.form')
           ) {
@@ -445,6 +446,7 @@ class App {
       workout.distance = distance;
       workout.duration = duration;
       workout.elevation = elevation;
+      workout.speed = this.distance / (this.duration / 60);
     }
 
     workout.id = this.#editingWorkout.id;
