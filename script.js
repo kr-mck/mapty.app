@@ -391,7 +391,7 @@ class App {
       // Submit - replace current data with new data in workout array
       form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      //Fix another workout apearing when clicked bug
+      //Fix another workout apearing when clicked bug - TAKE SOLUTION FROM THE COPILOT
       //Update description in UI
       //Fix coords bug
     }
@@ -458,6 +458,8 @@ class App {
 
     // Set local storage to all workouts
     // this._setLocalStorage();
+
+    //Remove old workout element from the DOM
 
     // Turn off "editing mode" and reset custom fields after editing
     this.#isEditing = false;
