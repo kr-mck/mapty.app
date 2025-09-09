@@ -83,6 +83,7 @@ class App {
   #workouts = [];
   #isEditing;
   #editingWorkout;
+  #editingWorkoutDOM;
 
   constructor() {
     this._getPosition();
@@ -331,8 +332,8 @@ class App {
     if (!editBtn) return;
 
     const workoutsContainer = document.querySelector('.sidebar');
-    const workoutEl = editBtn.closest('.workout');
-    const workoutId = workoutEl.dataset.id;
+    this.#editingWorkoutDOM = editBtn.closest('.workout');
+    const workoutId = this.#editingWorkoutDOM.dataset.id;
 
     this.#editingWorkout = this.#workouts.find(
       workout => workout.id === workoutId
@@ -343,7 +344,7 @@ class App {
       this.#isEditing = true;
 
       // Hide workout container
-      workoutEl.style.display = 'none';
+      this.#editingWorkoutDOM.style.display = 'none';
 
       // Show current workout data in the form
       const currWorkoutObj = this.#workouts.find(
@@ -383,7 +384,7 @@ class App {
             !clickedElement.closest('.form')
           ) {
             this._hideForm();
-            workoutEl.style.display = '';
+            this.#editingWorkoutDOM.style.display = '';
           }
         }.bind(this)
       );
@@ -391,7 +392,8 @@ class App {
       // Submit - replace current data with new data in workout array
       form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      //Fix another workout apearing when clicked bug - TAKE SOLUTION FROM THE COPILOT
+      // 2. Avoid duplicate event listeners - DO IT FROM THE COPILOT
+
       //Update description in UI
       //Fix coords bug
     }
@@ -450,6 +452,9 @@ class App {
     workout.id = this.#editingWorkout.id;
     workout.date = this.#editingWorkout.date;
 
+    //Remove old workout element from the DOM
+    this.#editingWorkoutDOM.remove();
+
     // Render workout on list
     this._renderWorkout(workout);
 
@@ -459,11 +464,10 @@ class App {
     // Set local storage to all workouts
     // this._setLocalStorage();
 
-    //Remove old workout element from the DOM
-
     // Turn off "editing mode" and reset custom fields after editing
     this.#isEditing = false;
     this.#editingWorkout = null;
+    this.#editingWorkoutDOM = null;
   }
 
   _handleSubmit(e) {
