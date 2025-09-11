@@ -328,6 +328,10 @@ class App {
   // My code
 
   _editWorkout(e) {
+    if (this.#editingWorkoutDOM) {
+      this.#editingWorkoutDOM.style.display = '';
+    }
+
     const editBtn = e.target.closest('.workout__edit-btn');
     if (!editBtn) return;
 
@@ -377,6 +381,7 @@ class App {
         'click',
         function (e) {
           const clickedElement = e.target;
+          const allEditBtns = document.querySelectorAll('.workout__edit-btn');
 
           if (
             this.#isEditing === true &&
@@ -392,7 +397,7 @@ class App {
       // Submit - replace current data with new data in workout array
       form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      // 2. Avoid duplicate event listeners - DO IT FROM THE COPILOT
+      // Fix: 2. Avoid duplicate event listeners - DO IT FROM THE COPILOT
 
       //Update description in UI
       //Fix coords bug
