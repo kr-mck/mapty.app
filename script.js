@@ -395,12 +395,16 @@ class App {
       );
 
       // Submit - replace current data with new data in workout array
-      form.addEventListener('submit', this._replaceWorkout.bind(this));
+      // Event listener comented out because of a "handle submit" listener in teh constructor
+      // form.addEventListener('submit', this._replaceWorkout.bind(this));
 
-      // Fix: 2. Avoid duplicate event listeners - DO IT FROM THE COPILOT
+      // Do the small refractor from Copilot
 
       //Update description in UI
+
       //Fix coords bug
+
+      //Uncomment local storage
     }
   }
 
