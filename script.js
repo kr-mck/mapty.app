@@ -75,6 +75,7 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 const editWorkoutBtn = document.querySelector('.workout__edit-btn');
+const workoutsContainer = document.querySelector('.sidebar');
 
 class App {
   #map;
@@ -95,6 +96,8 @@ class App {
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     containerWorkouts.addEventListener('click', this._editWorkout.bind(this));
+
+    workoutsContainer.addEventListener('click', this._cancelEditing.bind(this));
 
     this.#isEditing = false;
   }
@@ -377,26 +380,10 @@ class App {
       this._showForm();
 
       //Show workout container when cklicked sidebar padding
-      workoutsContainer.addEventListener(
-        'click',
-        function (e) {
-          const clickedElement = e.target;
-          const allEditBtns = document.querySelectorAll('.workout__edit-btn');
-
-          if (
-            this.#isEditing === true &&
-            !clickedElement.closest('.workout') &&
-            !clickedElement.closest('.form')
-          ) {
-            this._hideForm();
-            this.#editingWorkoutDOM.style.display = '';
-          }
-        }.bind(this)
-      );
+      this._cancelEditing();
 
       // Submit - replace current data with new data in workout array
-      // Event listener comented out because of a "handle submit" listener in teh constructor
-      // form.addEventListener('submit', this._replaceWorkout.bind(this));
+      // Event listener is in the constructor
 
       // Do the small refractor from Copilot
 
@@ -484,6 +471,19 @@ class App {
       this._replaceWorkout(e);
     } else {
       this._newWorkout(e);
+    }
+  }
+
+  _cancelEditing(e) {
+    const clickedElement = e.target;
+
+    if (
+      this.#isEditing === true &&
+      !clickedElement.closest('.workout') &&
+      !clickedElement.closest('.form')
+    ) {
+      this._hideForm();
+      this.#editingWorkoutDOM.style.display = '';
     }
   }
 }
