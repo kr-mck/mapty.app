@@ -288,7 +288,7 @@ class App {
   }
 
   _moveToPopup(e) {
-    const workoutEl = e.target.closest('.workout');
+    const workoutEl = e.target?.closest('.workout');
 
     if (!workoutEl) return;
 
@@ -335,7 +335,7 @@ class App {
       this.#editingWorkoutDOM.style.display = '';
     }
 
-    const editBtn = e.target.closest('.workout__edit-btn');
+    const editBtn = e.target?.closest('.workout__edit-btn');
     if (!editBtn) return;
 
     const workoutsContainer = document.querySelector('.sidebar');
@@ -379,19 +379,16 @@ class App {
       // Show form
       this._showForm();
 
-      //Show workout container when cklicked sidebar padding
-      this._cancelEditing();
-
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
 
-      // Do the small refractor from Copilot
+      // Update description in UI - FROM COPILOT
 
-      //Update description in UI
+      // Fix the bug with clicking in the form - then editing workoutDOM appears
 
-      //Fix coords bug
+      // Fix coords bug
 
-      //Uncomment local storage
+      // Uncomment local storage
     }
   }
 
@@ -454,8 +451,10 @@ class App {
     // Render workout on list
     this._renderWorkout(workout);
 
-    //Hide form and clear input fields
+    // Hide form and clear input fields
     this._hideForm();
+
+    // Set updated description
 
     // Set local storage to all workouts
     // this._setLocalStorage();
@@ -474,6 +473,7 @@ class App {
     }
   }
 
+  //Show workout container when cklicked sidebar padding
   _cancelEditing(e) {
     const clickedElement = e.target;
 
