@@ -331,15 +331,16 @@ class App {
   // My code
 
   _editWorkout(e) {
-    if (this.#editingWorkoutDOM) {
-      this.#editingWorkoutDOM.style.display = '';
-    }
-
     const editBtn = e.target?.closest('.workout__edit-btn');
     if (!editBtn) return;
 
-    const workoutsContainer = document.querySelector('.sidebar');
-    this.#editingWorkoutDOM = editBtn.closest('.workout');
+    const newEditingDOM = editBtn.closest('.workout');
+
+    if (this.#editingWorkoutDOM && this.#editingWorkoutDOM !== newEditingDOM) {
+      this.#editingWorkoutDOM.style.display = '';
+    }
+
+    this.#editingWorkoutDOM = newEditingDOM;
     const workoutId = this.#editingWorkoutDOM.dataset.id;
 
     this.#editingWorkout = this.#workouts.find(
@@ -383,8 +384,6 @@ class App {
       // Event listener is in the constructor
 
       // Update description in UI - FROM COPILOT
-
-      // Fix the bug with clicking in the form - then editing workoutDOM appears
 
       // Fix coords bug
 
@@ -475,16 +474,23 @@ class App {
 
   //Show workout container when cklicked sidebar padding
   _cancelEditing(e) {
-    const clickedElement = e.target;
+    if (!this.#isEditing) return;
 
-    if (
-      this.#isEditing === true &&
-      !clickedElement.closest('.workout') &&
-      !clickedElement.closest('.form')
-    ) {
-      this._hideForm();
-      this.#editingWorkoutDOM.style.display = '';
-    }
+    const clickedElement = e.target;
+    const clickedInsideForm = form.contains(clickedElement);
+    const clickedAnyWorkout = !!clickedElement.closest('.workout');
+    const clickedEditBtn = !!clickedElement.closest('.workout__edit-btn');
+
+    console.log(clickedInsideForm, clickedAnyWorkout, clickedEditBtn);
+
+    // Do nothing if the click is on the form, any workout, or an edit button
+    if (clickedInsideForm || clickedAnyWorkout || clickedEditBtn) return;
+
+    // Otherwise, it's sidebar padding/background → cancel editing
+
+    this._hideForm();
+    if (this.#editingWorkoutDOM) this.#editingWorkoutDOM.style.display = '';
+    this.#isEditing = false;
   }
 }
 
