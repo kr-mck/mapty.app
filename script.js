@@ -129,6 +129,7 @@ class App {
 
     this.#map.on('click', this._showForm.bind(this));
 
+    // Now map exists, so render markers
     this.#workouts.forEach(work => {
       this._renderWorkoutMarker(work);
     });
@@ -219,7 +220,7 @@ class App {
   }
 
   _renderWorkoutMarker(workout) {
-    L.marker(workout.coords)
+    const marker = L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
         L.popup({
@@ -234,6 +235,8 @@ class App {
         `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
       )
       .openPopup();
+
+    workout.marker = marker;
   }
 
   _renderWorkout(workout) {
@@ -313,10 +316,20 @@ class App {
 
   _getLocaleStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
-
     if (!data) return;
 
-    this.#workouts = data;
+    this.#workouts = data.map(obj => {
+      if (obj.type === 'running') {
+        const run = Object.assign(new Running([], 0, 0, 0), obj);
+        run.date = new Date(obj.date);
+        return run;
+      }
+      if (obj.type === 'cycling') {
+        const cyc = Object.assign(new Cycling([], 0, 0, 0), obj);
+        cyc.date = new Date(obj.date);
+        return cyc;
+      }
+    });
 
     this.#workouts.forEach(work => {
       this._renderWorkout(work);
@@ -383,7 +396,7 @@ class App {
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
 
-      // Update description in UI - FROM COPILOT
+      // Update description in UI - Fix console log errors! & update popup color
 
       // Fix coords bug
 
@@ -447,16 +460,20 @@ class App {
     //Remove old workout element from the DOM
     this.#editingWorkoutDOM.remove();
 
+    // Set updated description
+    workout._setDescription();
+    workout.marker.setPopupContent(
+      `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
+    );
+
     // Render workout on list
     this._renderWorkout(workout);
 
     // Hide form and clear input fields
     this._hideForm();
 
-    // Set updated description
-
     // Set local storage to all workouts
-    // this._setLocalStorage();
+    this._setLocalStorage();
 
     // Turn off "editing mode" and reset custom fields after editing
     this.#isEditing = false;
