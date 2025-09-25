@@ -311,7 +311,14 @@ class App {
   }
 
   _setLocalStorage() {
-    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    // Copy of workouts without the marker property
+    const workoutsCleaned = this.#workouts.map(workout => {
+      const clone = { ...workout };
+      delete clone.marker; // Remove circular reference
+      return clone;
+    });
+
+    localStorage.setItem('workouts', JSON.stringify(workoutsCleaned));
   }
 
   _getLocaleStorage() {
@@ -396,11 +403,11 @@ class App {
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
 
-      // Update description in UI - Fix console log errors! & update popup color
+      // Update popup description color
 
       // Fix coords bug
 
-      // Uncomment local storage
+      // Test local storage
     }
   }
 
@@ -497,8 +504,6 @@ class App {
     const clickedInsideForm = form.contains(clickedElement);
     const clickedAnyWorkout = !!clickedElement.closest('.workout');
     const clickedEditBtn = !!clickedElement.closest('.workout__edit-btn');
-
-    console.log(clickedInsideForm, clickedAnyWorkout, clickedEditBtn);
 
     // Do nothing if the click is on the form, any workout, or an edit button
     if (clickedInsideForm || clickedAnyWorkout || clickedEditBtn) return;
