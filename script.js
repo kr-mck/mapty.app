@@ -403,11 +403,7 @@ class App {
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
 
-      // Update popup description color
-
-      // Fix coords bug
-
-      // Test local storage
+      // Delete old proerties in when the type of an workout was changed
     }
   }
 
@@ -444,7 +440,7 @@ class App {
       workout.pace = workout.duration / workout.distance;
     }
 
-    // If workout cyclig, create running object
+    // If workout cyclig, create cyclig object
     if (type === 'cycling') {
       const elevation = +inputElevation.value;
 
@@ -457,7 +453,7 @@ class App {
       workout.type = type;
       workout.distance = distance;
       workout.duration = duration;
-      workout.elevation = elevation;
+      workout.elevationGain = elevation;
       workout.speed = workout.distance / (workout.duration / 60);
     }
 
@@ -477,6 +473,8 @@ class App {
 
     // Hide form and clear input fields
     this._hideForm();
+
+    console.log(workout);
 
     // Set local storage to all workouts
     this._setLocalStorage();
