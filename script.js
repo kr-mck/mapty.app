@@ -306,6 +306,8 @@ class App {
       },
     });
 
+    console.log(workout);
+
     // Using the public interface
     // workout.click();
   }
@@ -403,7 +405,7 @@ class App {
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
 
-      // Delete old proerties in when the type of an workout was changed
+      // DELETE console logs and test all of it
     }
   }
 
@@ -438,6 +440,10 @@ class App {
       workout.duration = duration;
       workout.cadence = cadence;
       workout.pace = workout.duration / workout.distance;
+
+      // Delete unnecessary properties when workout's type changes
+      delete workout.elevation;
+      delete workout.elevationGain;
     }
 
     // If workout cyclig, create cyclig object
@@ -455,6 +461,9 @@ class App {
       workout.duration = duration;
       workout.elevationGain = elevation;
       workout.speed = workout.distance / (workout.duration / 60);
+
+      // Delete unnecessary properties when workout's type changes
+      delete workout.pace;
     }
 
     workout.id = this.#editingWorkout.id;
@@ -506,7 +515,6 @@ class App {
     if (clickedInsideForm || clickedAnyWorkout || clickedEditBtn) return;
 
     // Otherwise, it's sidebar padding/background → cancel editing
-
     this._hideForm();
     if (this.#editingWorkoutDOM) this.#editingWorkoutDOM.style.display = '';
     this.#isEditing = false;
