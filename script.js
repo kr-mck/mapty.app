@@ -120,7 +120,6 @@ class App {
     const coords = [latitude, longitude];
 
     this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
-    // console.log(map);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -306,8 +305,6 @@ class App {
       },
     });
 
-    console.log(workout);
-
     // Using the public interface
     // workout.click();
   }
@@ -404,8 +401,6 @@ class App {
 
       // Submit - replace current data with new data in workout array
       // Event listener is in the constructor
-
-      // DELETE console logs and test all of it
     }
   }
 
@@ -482,8 +477,6 @@ class App {
 
     // Hide form and clear input fields
     this._hideForm();
-
-    console.log(workout);
 
     // Set local storage to all workouts
     this._setLocalStorage();
