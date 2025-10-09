@@ -1,5 +1,6 @@
+/* Small laptop screens */
 @media (max-width: 60rem) {
-  .sidebar {
-    background-color: red;
+  html {
+    font-size: 50%;
   }
 }
