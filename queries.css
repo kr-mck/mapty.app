@@ -1,0 +1,5 @@
+@media (max-width: 60rem) {
+  .sidebar {
+    background-color: red;
+  }
+}
