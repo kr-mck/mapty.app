@@ -1,6 +1,25 @@
-/* Small laptop screens */
+/* Tablets screens - horizontal */
 @media (max-width: 60rem) {
   html {
     font-size: 50%;
+  }
+}
+
+/* Tablets screens - vertical */
+@media (max-width: 50rem) {
+  html {
+    font-size: 40%;
+  }
+}
+
+/* Large phones */
+
+@media (max-width: 43rem) {
+  body {
+    flex-direction: column-reverse;
+  }
+
+  .sidebar {
+    height: 40vh;
   }
 }
