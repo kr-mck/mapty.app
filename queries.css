@@ -21,5 +21,27 @@
 
   .sidebar {
     height: 40vh;
+    padding: 3rem 2rem 4rem 2rem;
+  }
+
+  .workout__details {
+    justify-self: center;
+  }
+
+  .workout__title {
+    font-size: 1.9rem;
+  }
+
+  .workout__edit-btn,
+  .workout__value {
+    font-size: 1.7rem;
+  }
+
+  .workout__icon {
+    font-size: 2rem;
+  }
+
+  .workout__unit {
+    font-size: 1.2rem;
   }
 }
