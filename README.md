@@ -8,4 +8,4 @@ All improvements in this repo were made entirely by me after the course.
 
 Mapty is a small web application that uses the Geolocation API and lets you add and store information about your sport activities, such as running and cycling.
 
-You can use it here: <a target="_blank">https://km-mapty.netlify.app/</a>
+You can use it here: https://km-mapty.netlify.app
